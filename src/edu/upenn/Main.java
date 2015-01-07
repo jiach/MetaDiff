@@ -11,9 +11,9 @@ public class Main {
 
         Options options = new Options();
         options.addOption("v", "verbose", false, "print detailed output for development purposes.");
-        Option opt_input_file_list = OptionBuilder.withArgName( "opt_input_file_list" ).hasArg().isRequired().withDescription("specify the list of input files and covariates. Refer to README for format details.").create("opt_input_file_list");
-        Option opt_output_dir = OptionBuilder.withArgName( "opt_output_dir" ).hasArg().isRequired().withDescription("specify the location where temporary files and final results are stores.").create("opt_output_dir");
-        Option opt_method = OptionBuilder.withArgName( "opt_method" ).hasArg().isRequired().withDescription("specify the opt_method with which the input files are generated. 0-Cufflinks, 1-MMSEQ. ").create("opt_method");
+        Option opt_input_file_list = OptionBuilder.withArgName( "input_file_list" ).hasArg().isRequired().withDescription("specify the list of input files and covariates. Refer to README for format details.").create("input_file_list");
+        Option opt_output_dir = OptionBuilder.withArgName( "output_dir" ).hasArg().isRequired().withDescription("specify the location where temporary files and final results are stores.").create("output_dir");
+        Option opt_method = OptionBuilder.withArgName( "method" ).hasArg().isRequired().withDescription("specify the opt_method with which the input files are generated. 0-Cufflinks, 1-MMSEQ. ").create("method");
 
         options.addOption(opt_input_file_list);
         options.addOption(opt_output_dir);
