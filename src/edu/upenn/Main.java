@@ -5,6 +5,10 @@ package edu.upenn;
 
 import org.apache.commons.cli.*;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+
 public class Main {
 
     public static void main(String[] args){
@@ -21,31 +25,35 @@ public class Main {
         options.addOption(opt_method);
         options.addOption(opt_fpkm_threshold);
 
+        CommandLine line = null;
         try {
             // parse the command line arguments
 
             CommandLineParser parser = new GnuParser();
-            CommandLine line = parser.parse(options, args );
-
-            String input_list_fn = line.getOptionValue("input_file_list");
-            String output_dir = line.getOptionValue("output_dir");
-            String method = line.getOptionValue("method");
-            String min_fpkm_mean = line.getOptionValue("mean_fpkm_threshold");
-
-            System.out.println(input_list_fn);
-            System.out.println(output_dir);
-            System.out.println(method);
-            System.out.println(min_fpkm_mean);
-
-        }
-        catch( ParseException exp ) {
+            line = parser.parse(options, args );
+        } catch( ParseException exp ) {
             System.out.println( "Unexpected exception:" + exp.getMessage() );
         }
+        String input_list_fn = line.getOptionValue("input_file_list");
+        String output_dir = line.getOptionValue("output_dir");
+        String method = line.getOptionValue("method");
+        String min_fpkm_mean = line.getOptionValue("mean_fpkm_threshold");
+
+        System.out.println(input_list_fn);
+        System.out.println(output_dir);
+        System.out.println(method);
+        System.out.println(min_fpkm_mean);
 
 
+        try {
+            BufferedReader in = new BufferedReader(new FileReader(input_list_fn));
 
-        CufflinksParser cuff_parser = new CufflinksParser();
-        cuff_parser.printme();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+//        CufflinksParser cuff_parser = new CufflinksParser();
+//        cuff_parser.printme();
     }
 
 }
