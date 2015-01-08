@@ -8,6 +8,8 @@ import org.apache.commons.cli.*;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.util.Arrays;
 
 public class Main {
 
@@ -39,21 +41,40 @@ public class Main {
         String method = line.getOptionValue("method");
         String min_fpkm_mean = line.getOptionValue("mean_fpkm_threshold");
 
-        System.out.println(input_list_fn);
-        System.out.println(output_dir);
-        System.out.println(method);
-        System.out.println(min_fpkm_mean);
+//        System.out.println(input_list_fn);
+//        System.out.println(output_dir);
+//        System.out.println(method);
+//        System.out.println(min_fpkm_mean);
 
+        InputList fpkm_list = new InputList();
 
         try {
             BufferedReader in = new BufferedReader(new FileReader(input_list_fn));
+            String curLine = in.readLine();
+            fpkm_list.setHeader(curLine);
+
+            while((curLine=in.readLine())!=null){
+                fpkm_list.appendSample(curLine);
+            }
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-//        CufflinksParser cuff_parser = new CufflinksParser();
-//        cuff_parser.printme();
+        String[] sorted_sample_id = fpkm_list.getSampleIDs();
+        String[] sorted_filename = fpkm_list.getListFilename(sorted_sample_id);
+
+
+        CufflinksParser cuff_parser = new CufflinksParser(sorted_filename);
+        System.out.println("Trimming Isoforms according to mean_fpkm_threshold = "+min_fpkm_mean);
+        cuff_parser.trim_isoforms(Double.parseDouble(min_fpkm_mean));
+        System.out.println(Long.toString(cuff_parser.get_num_isoforms())+" isoforms remaining after trimming");
+        cuff_parser.write_tmp_file(output_dir);
+        //        CufflinksParser cuff_parser = new CufflinksParser();
+        //        cuff_parser.printme();
     }
 
 }
+

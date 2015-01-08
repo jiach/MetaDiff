@@ -4,10 +4,12 @@
 
 package edu.upenn;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -45,9 +47,40 @@ public class CufflinksParser {
 
     }
 
-    public void printme(){
-        System.out.println(this.dict_arr_fpkm.size());
+    public void write_tmp_file(String output_dir){
+
+        String mat_fn = output_dir+"/fpkm.mat";
+
+        try {
+            PrintWriter mat_fout = new PrintWriter(new File(mat_fn));
+            mat_fout.print("isoform\ty\tsd\n");
+            mat_fout.print(this.get_mat_output_string());
+            mat_fout.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 
+    public void trim_isoforms(Double min_fpkm_mean){
+
+        for(Iterator<Map.Entry<String, ArrFPKM>> it = this.dict_arr_fpkm.entrySet().iterator(); it.hasNext(); ) {
+            Map.Entry<String, ArrFPKM> entry = it.next();
+            if(entry.getValue().get_mean_fpkm()<min_fpkm_mean) {
+                it.remove();
+            }
+        }
+    }
+    public String get_mat_output_string(){
+        ArrayList<String> string_list = new ArrayList<String>();
+        for(Iterator<Map.Entry<String,ArrFPKM>> it = this.dict_arr_fpkm.entrySet().iterator();it.hasNext();){
+            Map.Entry<String, ArrFPKM> entry = it.next();
+            string_list.add(entry.getValue().get_fpkm_string(entry.getKey()));
+        }
+        return(StringUtils.join(string_list.toArray(new String[string_list.size()]),"\n"));
+    }
+    public long get_num_isoforms(){
+        return(dict_arr_fpkm.size());
+    }
 }
 

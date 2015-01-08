@@ -1,5 +1,9 @@
 package edu.upenn;
 
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.math3.stat.descriptive.AbstractStorelessUnivariateStatistic;
+
 import java.util.ArrayList;
 
 /**
@@ -17,5 +21,21 @@ public class ArrFPKM {
     public void append(double y, double conf_lo, double conf_hi){
         this.y_list.add(y);
         this.sd_list.add((conf_hi-conf_lo)/2/1.959963984540053605343);
+    }
+
+    public double get_mean_fpkm(){
+        double sum = (double)0;
+        for (int i = 0; i < this.y_list.size(); i++) {
+            sum += y_list.get(i);
+        }
+        return(sum/y_list.size());
+    }
+
+    public String get_fpkm_string(String iso_name){
+        ArrayList<String> string_list = new ArrayList<String>();
+        for (int i = 0; i < this.y_list.size(); i++) {
+            string_list.add(iso_name+"\t"+this.y_list.get(i).toString()+"\t"+this.sd_list.get(i).toString());
+        }
+        return(StringUtils.join(string_list,"\n"));
     }
 }
