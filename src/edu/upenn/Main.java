@@ -9,7 +9,6 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
 
 public class Main {
 
@@ -51,10 +50,10 @@ public class Main {
         try {
             BufferedReader in = new BufferedReader(new FileReader(input_list_fn));
             String curLine = in.readLine();
-            fpkm_list.setHeader(curLine);
+            fpkm_list.set_header(curLine);
 
             while((curLine=in.readLine())!=null){
-                fpkm_list.appendSample(curLine);
+                fpkm_list.append_sample(curLine);
             }
 
         } catch (FileNotFoundException e) {
@@ -63,17 +62,22 @@ public class Main {
             e.printStackTrace();
         }
 
-        String[] sorted_sample_id = fpkm_list.getSampleIDs();
-        String[] sorted_filename = fpkm_list.getListFilename(sorted_sample_id);
+        String[] sorted_sample_id = fpkm_list.get_sample_ids();
+        String[] sorted_filename = fpkm_list.get_list_fn(sorted_sample_id);
 
+        CufflinksParser fpkm_parser = null;
 
-        CufflinksParser cuff_parser = new CufflinksParser(sorted_filename);
+        if (method.equals("0")){
+            fpkm_parser = new CufflinksParser(sorted_filename);
+        }else if (method.equals("1")) {
+            fpkm_parser = new MmseqParser(sorted_filename);
+        }
+
         System.out.println("Trimming Isoforms according to mean_fpkm_threshold = "+min_fpkm_mean);
-        cuff_parser.trim_isoforms(Double.parseDouble(min_fpkm_mean));
-        System.out.println(Long.toString(cuff_parser.get_num_isoforms())+" isoforms remaining after trimming");
-        cuff_parser.write_tmp_file(output_dir);
-        //        CufflinksParser cuff_parser = new CufflinksParser();
-        //        cuff_parser.printme();
+        fpkm_parser.trim_isoforms(Double.parseDouble(min_fpkm_mean),fpkm_list.get_num_sample());
+        System.out.println(Long.toString(fpkm_parser.get_num_isoforms())+" isoforms remaining after trimming");
+        fpkm_parser.write_tmp_file(output_dir, fpkm_list.get_cov_mat(sorted_sample_id), fpkm_list.get_header_string());
+
     }
 
 }

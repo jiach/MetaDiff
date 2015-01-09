@@ -2,7 +2,6 @@ package edu.upenn;
 
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.math3.stat.descriptive.AbstractStorelessUnivariateStatistic;
 
 import java.util.ArrayList;
 
@@ -31,10 +30,18 @@ public class ArrFPKM {
         return(sum/y_list.size());
     }
 
-    public String get_fpkm_string(String iso_name){
+    public int get_sample_num(){
+        return(this.y_list.size());
+    }
+
+    public String get_fpkm_string(String iso_name, String[][] cov_mat){
         ArrayList<String> string_list = new ArrayList<String>();
+        String[] collapsed_cov_mat = new String[cov_mat.length];
+        for (int i = 0; i < cov_mat.length; i++) {
+            collapsed_cov_mat[i] = StringUtils.join(cov_mat[i],"\t");
+        }
         for (int i = 0; i < this.y_list.size(); i++) {
-            string_list.add(iso_name+"\t"+this.y_list.get(i).toString()+"\t"+this.sd_list.get(i).toString());
+            string_list.add(iso_name+"\t"+this.y_list.get(i).toString()+"\t"+this.sd_list.get(i).toString()+"\t"+collapsed_cov_mat[i]);
         }
         return(StringUtils.join(string_list,"\n"));
     }
