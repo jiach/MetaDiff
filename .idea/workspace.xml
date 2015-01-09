@@ -7,18 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="da8eb269-81ce-440d-ae56-627224c8f415" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/edu/upenn/RScriptBuilder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MetaDiffJ/edu/upenn/ArrFPKM.class" afterPath="$PROJECT_DIR$/out/production/MetaDiffJ/edu/upenn/ArrFPKM.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MetaDiffJ/edu/upenn/CufflinksParser.class" afterPath="$PROJECT_DIR$/out/production/MetaDiffJ/edu/upenn/CufflinksParser.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MetaDiffJ/edu/upenn/InputList.class" afterPath="$PROJECT_DIR$/out/production/MetaDiffJ/edu/upenn/InputList.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MetaDiffJ/edu/upenn/Main.class" afterPath="$PROJECT_DIR$/out/production/MetaDiffJ/edu/upenn/Main.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MetaDiffJ/edu/upenn/MmseqParser.class" afterPath="$PROJECT_DIR$/out/production/MetaDiffJ/edu/upenn/MmseqParser.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/upenn/ArrFPKM.java" afterPath="$PROJECT_DIR$/src/edu/upenn/ArrFPKM.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/upenn/CufflinksParser.java" afterPath="$PROJECT_DIR$/src/edu/upenn/CufflinksParser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/upenn/InputList.java" afterPath="$PROJECT_DIR$/src/edu/upenn/InputList.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/upenn/Main.java" afterPath="$PROJECT_DIR$/src/edu/upenn/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/R/run_metatest.R" afterPath="$PROJECT_DIR$/R/run_metatest.R" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/MetaDiffJ_jar.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/MetaDiffJ_jar.xml" />
     </list>
     <ignored path="MetaDiffJ.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -86,8 +76,8 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/edu/upenn/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7820823" vertical-offset="1237" max-vertical-offset="1650">
-              <caret line="104" column="0" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.7457627" vertical-offset="1207" max-vertical-offset="1620">
+              <caret line="101" column="4" selection-start-line="101" selection-start-column="4" selection-end-line="101" selection-end-column="4" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="imports" expanded="true" />
@@ -212,6 +202,20 @@
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MetaDiffJ" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MetaDiffJ" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="upenn" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
@@ -287,7 +291,7 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="dynamic.classpath" value="false" />
@@ -554,12 +558,12 @@
       <workItem from="1420746375903" duration="6512000" />
       <workItem from="1420757224557" duration="18000" />
       <workItem from="1420816101332" duration="4522000" />
-      <workItem from="1420822924132" duration="6589000" />
+      <workItem from="1420822924132" duration="7641000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28397000" />
+    <option name="totallyTimeSpent" value="29449000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="-4" width="1301" height="772" extended-state="6" />
@@ -973,8 +977,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/upenn/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7820823" vertical-offset="1237" max-vertical-offset="1650">
-          <caret line="104" column="0" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.7457627" vertical-offset="1207" max-vertical-offset="1620">
+          <caret line="101" column="4" selection-start-line="101" selection-start-column="4" selection-end-line="101" selection-end-column="4" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
