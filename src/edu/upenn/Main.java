@@ -65,6 +65,10 @@ public class Main {
         String[] sorted_sample_id = fpkm_list.get_sample_ids();
         String[] sorted_filename = fpkm_list.get_list_fn(sorted_sample_id);
 
+        RScriptBuilder rscript_builder = new RScriptBuilder();
+        String r_script_fn = output_dir+"/run_metatest.R";
+        rscript_builder.write_to_R_script(fpkm_list.get_arr_cov_string(),r_script_fn);
+
         CufflinksParser fpkm_parser = null;
 
         if (method.equals("0")){
@@ -76,9 +80,25 @@ public class Main {
         System.out.println("Trimming Isoforms according to mean_fpkm_threshold = "+min_fpkm_mean);
         fpkm_parser.trim_isoforms(Double.parseDouble(min_fpkm_mean),fpkm_list.get_num_sample());
         System.out.println(Long.toString(fpkm_parser.get_num_isoforms())+" isoforms remaining after trimming");
-        fpkm_parser.write_tmp_file(output_dir, fpkm_list.get_cov_mat(sorted_sample_id), fpkm_list.get_header_string());
+        fpkm_parser.write_tmp_file(output_dir, fpkm_list.get_cov_mat(sorted_sample_id), fpkm_list.get_cov_header_string());
 
+        String r_script_cmd = "Rscript "+r_script_fn+" "+output_dir+"/fpkm.mat"+" "+output_dir+"/metadiff_results.tsv";
+        System.out.println("Running R script for metatest: \n"+r_script_cmd);
+        System.out.println("Please be patient.");
+        try {
+            Process child = Runtime.getRuntime().exec(r_script_cmd);
+            child.waitFor();
+            if (child.exitValue()==0){
+                System.out.println("Rscript exited without errors.");
+            } else {
+                System.out.println("Rscript exited with errors.");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 }
-

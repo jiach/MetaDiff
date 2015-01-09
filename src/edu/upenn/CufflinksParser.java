@@ -59,8 +59,9 @@ public class CufflinksParser {
 
         try {
             PrintWriter mat_fout = new PrintWriter(new File(mat_fn));
-            mat_fout.print(header+"\n");
+            mat_fout.print("Isoform\ty\tvariance\t"+header+"\n");
             mat_fout.print(this.get_mat_output_string(cov_mat));
+            mat_fout.flush();
             mat_fout.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();

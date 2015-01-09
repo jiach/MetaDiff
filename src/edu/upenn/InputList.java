@@ -1,6 +1,7 @@
 package edu.upenn;
 
 
+import com.sun.deploy.util.ArrayUtil;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -18,7 +19,7 @@ public class InputList {
     Map<String, String[]> dict_sample_to_covariates = new TreeMap<String, String[]>();
 
     public void set_header(String headerline){
-        String[] line_tokens = headerline.split("\t");
+        String[] line_tokens = headerline.toUpperCase().split("\t");
         this.list_header=line_tokens;
     }
 
@@ -53,8 +54,12 @@ public class InputList {
         return (cov_mat.toArray(new String[cov_mat.size()][]));
     }
 
-    public String get_header_string(){
-        return(StringUtils.join(this.list_header,"\t"));
+    public String get_cov_header_string(){
+        return(StringUtils.join(ArrayUtils.subarray(this.list_header,2,this.list_header.length+1),"\t"));
+    }
+
+    public String[] get_arr_cov_string(){
+        return(ArrayUtils.subarray(this.list_header,2,this.list_header.length+1));
     }
 
     public int get_num_sample(){
