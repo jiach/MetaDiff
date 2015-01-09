@@ -33,7 +33,8 @@ public class Main {
             CommandLineParser parser = new GnuParser();
             line = parser.parse(options, args );
         } catch( ParseException exp ) {
-            System.out.println( "Unexpected exception:" + exp.getMessage() );
+            HelpFormatter formatter = new HelpFormatter();
+            formatter.printHelp( "gnu", options );
         }
         String input_list_fn = line.getOptionValue("input_file_list");
         String output_dir = line.getOptionValue("output_dir");
