@@ -34,7 +34,8 @@ public class Main {
             line = parser.parse(options, args );
         } catch( ParseException exp ) {
             HelpFormatter formatter = new HelpFormatter();
-            formatter.printHelp( "gnu", options );
+            formatter.printHelp( "java -jar MetaDiffJ.jar", options );
+            System.exit(0);
         }
         String input_list_fn = line.getOptionValue("input_file_list");
         String output_dir = line.getOptionValue("output_dir");
