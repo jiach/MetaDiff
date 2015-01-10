@@ -3,14 +3,9 @@ library(plyr)
 library(doParallel)
 
 args <- commandArgs(trailingOnly = TRUE)
-
 file_in <- args[1]
-file_out <- args[2]
-
-file_in <- '/home/cheng/Dissertation/MetaDiff/fpkm.mat'
-file_out <- '/home/cheng/Dissertation/MetaDiff/metadiff.results'
-
-data_mat <- read.table(file_in, header=T, sep = '\t')[1:640,]
+nodes <- as.numeric(args[2])
+data_mat <- read.table(file_in, header=T, sep = '\t')
 
 run_metatest<-function(mat){
   meta_obj <- metatest(formula = y~factor(C_1)+R1, variance = variance, data=mat)
@@ -21,14 +16,11 @@ run_metatest<-function(mat){
   return(res_vec)
 }
 
-nodes <- detectCores()
-fileConn<-file(paste(file_out, '.log', sep = ''))
-writeLines(c(paste('Running Rscript with ',nodes,' cores.',sep='')), fileConn)
-close(fileConn)
+write(c(paste('Running Rscript with ',nodes,' cores.',sep='')), stderr())
 
 cl <- makeCluster(nodes)
 registerDoParallel(cl)
 df_res <- ddply(data_mat, .(Isoform), .fun = run_metatest, .parallel = T, .paropts = list(.packages='metatest'))
 stopCluster(cl)
 
-write.table(df_res, file = file_out, row.names = F, quote=F)
+write.table(df_res, file = "", row.names = F, quote=F, sep='\t')
