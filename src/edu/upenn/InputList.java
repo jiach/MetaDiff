@@ -65,4 +65,6 @@ public class InputList {
     public int get_num_sample(){
         return(this.dict_sample_to_fn.size());
     }
+
+//TODO:    public String[] get_group_cov(String[] sample_id){}
 }

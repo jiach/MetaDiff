@@ -90,5 +90,7 @@ public class CufflinksParser {
     public long get_num_isoforms(){
         return(dict_arr_fpkm.size());
     }
+
+    //TODO: public get_cv(String[] group_cov) {}
 }
 
