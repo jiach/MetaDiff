@@ -7,10 +7,7 @@ package edu.upenn;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * Created by cheng on 1/7/15.
@@ -18,7 +15,7 @@ import java.util.TreeMap;
 public class CufflinksParser {
 
     Map<String, ArrFPKM> dict_arr_fpkm = new TreeMap<String, ArrFPKM>();
-
+    String[] uniq_group = null;
 
     public CufflinksParser() {
     }
@@ -30,7 +27,6 @@ public class CufflinksParser {
     public void read_in_file(String[] fn){
         try {
             for (int i = 0; i < fn.length; i++) {
-                System.out.println("Now processing: "+fn[i]);
                 BufferedReader in = new BufferedReader(new FileReader(fn[i]));
                 String line;
                 String[] line_tokens;
@@ -78,6 +74,33 @@ public class CufflinksParser {
             }
         }
     }
+
+    public void trim_isoform(Double max_cv, String[] group_var){
+        Set<String> unique_group_var_set = new HashSet<String>(Arrays.asList(group_var));
+        String[] unique_group_var = unique_group_var_set.toArray(new String[unique_group_var_set.size()]);
+        this.uniq_group = unique_group_var;
+
+        for(Iterator<Map.Entry<String, ArrFPKM>> it = this.dict_arr_fpkm.entrySet().iterator(); it.hasNext(); ) {
+            Map.Entry<String, ArrFPKM> entry = it.next();
+            Map<String, Double> cur_cv = entry.getValue().get_cv(group_var, unique_group_var);
+
+            Boolean remove_isoform = false;
+            for (Double aCV_val : cur_cv.values()){
+                if(aCV_val.isInfinite() || aCV_val.isNaN() || (aCV_val>max_cv)){
+                    remove_isoform = true;
+                }
+            }
+
+            if (remove_isoform){
+                it.remove();
+            }
+        }
+    }
+
+    public String get_cv_str(String sample_id, String[]  gropu_id){
+
+    }
+
     public String get_mat_output_string(String[][] cov_mat){
         ArrayList<String> string_list = new ArrayList<String>();
 

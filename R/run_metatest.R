@@ -5,7 +5,7 @@ library(doParallel)
 args <- commandArgs(trailingOnly = TRUE)
 file_in <- args[1]
 nodes <- as.numeric(args[2])
-data_mat <- read.table(file_in, header=T, sep = '\t')
+data_mat <- read.table(file_in, header=T, sep = '\t')[1:32,]
 
 run_metatest<-function(mat){
   meta_obj <- metatest(formula = y~factor(C_1)+R1, variance = variance, data=mat)

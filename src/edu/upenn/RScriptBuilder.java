@@ -18,7 +18,7 @@ public class RScriptBuilder {
             "args <- commandArgs(trailingOnly = TRUE)\n" +
             "file_in <- args[1]\n" +
             "nodes <- as.numeric(args[2])\n" +
-            "data_mat <- read.table(file_in, header=T, sep = '\\t')\n" +
+            "data_mat <- read.table(file_in, header=T, sep = '\\t')[1:640,]\n" +
             "\n" +
             "run_metatest<-function(mat){\n" +
             "  meta_obj <- metatest(formula = y~";
@@ -46,7 +46,7 @@ public class RScriptBuilder {
             "args <- commandArgs(trailingOnly = TRUE)\n" +
             "file_in <- args[1]\n" +
             "\n" +
-            "data_mat <- read.table(file_in, header=T, sep = '\\t')\n" +
+            "data_mat <- read.table(file_in, header=T, sep = '\\t')[1:640,]\n" +
             "\n" +
             "run_metatest<-function(mat){\n" +
             "  meta_obj <- metatest(formula = y~";

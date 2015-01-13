@@ -1,9 +1,15 @@
 package edu.upenn;
 
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.math3.stat.descriptive.moment.Mean;
+import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by cheng on 1/7/15.
@@ -11,6 +17,7 @@ import java.util.ArrayList;
 public class ArrFPKM {
     ArrayList<Double> y_list = new ArrayList<Double>();
     ArrayList<Double> variance_list = new ArrayList<Double>();
+    Map<String, Double> cv = null;
 
     public void append(double y, double sd){
         this.y_list.add(y);
@@ -19,7 +26,7 @@ public class ArrFPKM {
 
     public void append(double y, double conf_lo, double conf_hi){
         this.y_list.add(y);
-        this.variance_list.add(((conf_hi - conf_lo) / 2 / 1.959963984540053605343) * ((conf_hi - conf_lo) / 2 / 1.959963984540053605343));
+        this.variance_list.add(((conf_hi-y)/1.959963984540053605343)*((conf_hi-y)/1.959963984540053605343));
     }
 
     public double get_mean_fpkm(){
@@ -45,4 +52,31 @@ public class ArrFPKM {
         }
         return(StringUtils.join(string_list,"\n"));
     }
+
+    public Map<String, Double> get_cv(String[] group_var, String[] uniq_group){
+        Map<String, Double> group_to_cv_map = new TreeMap<String, Double>();
+        Map<String, ArrayList<Double> > grouped_y = new TreeMap<String, ArrayList<Double>>();
+        for (String aUniq_group : uniq_group){
+            grouped_y.put(aUniq_group, new ArrayList<Double>());
+            for (int i = 0; i < group_var.length; i++) {
+                if (group_var[i].equals(aUniq_group)){
+                    grouped_y.get(aUniq_group).add(this.y_list.get(i));
+                }
+            }
+        }
+
+        StandardDeviation std_stat = new StandardDeviation(true);
+        Mean mean_stat = new Mean();
+        for(Iterator<Map.Entry<String, ArrayList<Double>>> it = grouped_y.entrySet().iterator(); it.hasNext(); ) {
+            Map.Entry<String, ArrayList<Double>> entry = it.next();
+            double[] cur_y_arr = ArrayUtils.toPrimitive(entry.getValue().toArray(new Double[entry.getValue().size()]));
+            double  std = std_stat.evaluate(cur_y_arr);
+            double mean = mean_stat.evaluate(cur_y_arr);
+            group_to_cv_map.put(entry.getKey(), std/mean);
+        }
+
+        this.cv = group_to_cv_map;
+        return group_to_cv_map;
+    }
+
 }
