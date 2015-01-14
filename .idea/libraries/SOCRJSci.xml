@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="SOCRJSci">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/SOCRJSci.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -35,7 +35,7 @@ public class RScriptBuilder {
             "      warning(paste('Metatest failed at isoform: ', as.character(mat[1,1])))\n" +
             "    }\n" +
             "  )\n" +
-            "}"+
+            "}\n"+
             "write(c(paste('Running Rscript with ',nodes,' cores.',sep='')), stderr())\n" +
             "\n" +
             "cl <- makeCluster(nodes)\n" +
@@ -68,7 +68,7 @@ public class RScriptBuilder {
             "      warning(paste('Metatest failed at isoform: ', as.character(mat[1,1])))\n" +
             "    }\n" +
             "  )\n" +
-            "}" +
+            "}\n" +
             "df_res <- ddply(data_mat, .(Isoform), .fun = run_metatest)\n" +
             "\n" +
             "write.table(df_res, file = \"\", row.names = F, quote=F, sep='\\t')";

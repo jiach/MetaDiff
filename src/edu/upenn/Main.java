@@ -4,12 +4,11 @@
 package edu.upenn;
 
 import org.apache.commons.cli.*;
+import ubic.basecode.math.MultipleTestCorrection;
 
 import java.io.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Main {
 
@@ -21,7 +20,7 @@ public class Main {
         options.addOption("v", "verbose", false, "print detailed output for development purposes.");
         Option opt_input_file_list = OptionBuilder.withArgName( "input_file_list" ).hasArg().isRequired().withDescription("specify the list of input files and covariates. Refer to README for format details.").create("input_file_list");
         Option opt_output_dir = OptionBuilder.withArgName( "output_dir" ).hasArg().isRequired().withDescription("specify the location where temporary files and final results are stores.").create("output_dir");
-        Option opt_method = OptionBuilder.withArgName( "method" ).hasArg().isRequired().withDescription("specify the method with which the input files are generated. 0-Cufflinks, 1-MMSEQ. ").create("method");
+        Option opt_method = OptionBuilder.withArgName( "method" ).hasArg().isRequired().withDescription("specify the method with which the input files are generated, method = \"cufflinks\" or \"mmseq\". ").create("method");
         Option opt_fpkm_threshold = OptionBuilder.withArgName("mean_fpkm_threshold").hasArg().withDescription("specify the lowest mean FPKM for the isoform to be considered and analyzed").create("mean_fpkm_threshold");
         Option opt_cv_threshold = OptionBuilder.withArgName( "cv_threshold" ).hasArg().withDescription("specify the highest coefficient of variation of the FPKM for the isoform to pass STATUS check").create("cv_threshold");
         Option opt_num_cores = OptionBuilder.withArgName("num_cores").hasArg().withDescription("specify the number of cores used to run the R script.").create("num_cores");
@@ -76,7 +75,9 @@ public class Main {
 
 
         //initialize buffered writer for log file
-        Logger metadiff_log = new Logger(verbose,output_dir+"/metadiff.log");
+        Path output_path = Paths.get(output_dir);
+        String log_file = output_path.resolve("metadiff.log").toString();
+        Logger metadiff_log = new Logger(verbose,log_file);
         metadiff_log.log_message("Starting logging to file: " + output_dir + "/metadiff.log");
 
         //read in the list of inputs.
@@ -103,9 +104,9 @@ public class Main {
         //read in all the output from files given in the input list.
         CufflinksParser fpkm_parser = null;
 
-        if (method.equals("0")){
+        if (method.equals("cufflinks")){
             fpkm_parser = new CufflinksParser(sorted_filename, metadiff_log);
-        }else if (method.equals("1")) {
+        }else if (method.equals("mmseq")) {
             fpkm_parser = new MmseqParser(sorted_filename, metadiff_log);
         }
 
@@ -124,9 +125,6 @@ public class Main {
         }
 
         fpkm_parser.write_tmp_file(output_dir, fpkm_list.get_cov_mat(sorted_sample_id), fpkm_list.get_cov_header_string());
-
-
-
 
         RScriptBuilder rscript_builder = new RScriptBuilder();
         String r_script_fn = output_dir+"/run_metatest.R";

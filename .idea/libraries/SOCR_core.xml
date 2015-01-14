@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="SOCR_core">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/SOCR_core.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
