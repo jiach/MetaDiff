@@ -20,9 +20,9 @@ public class InputList {
     public void set_header(String headerline){
         String[] line_tokens = headerline.toUpperCase().split("\t");
         this.list_header=line_tokens;
-        if (Arrays.asList(line_tokens).contains("C_group")){
+        if (Arrays.asList(line_tokens).contains("C_GROUP")){
             this.has_group_var=true;
-            this.group_var_index = Arrays.asList(line_tokens).indexOf("C_group")-2;
+            this.group_var_index = Arrays.asList(line_tokens).indexOf("C_GROUP")-2;
         }else{
             this.has_group_var=false;
         }

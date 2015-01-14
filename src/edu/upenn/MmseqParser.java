@@ -12,14 +12,14 @@ import java.io.IOException;
  */
 public class MmseqParser extends CufflinksParser{
 
-    public MmseqParser(String[] fn){
-        this.read_in_file(fn);
+    public MmseqParser(String[] fn, Logger log){
+        this.read_in_file(fn,log);
     }
 
-    public void read_in_file(String[] fn){
+    public void read_in_file(String[] fn, Logger log){
         try {
             for (int i = 0; i < fn.length; i++) {
-                System.out.println("Now processing: "+fn[i]);
+                log.log_message("processing file: "+fn[i]);
                 BufferedReader in = new BufferedReader(new FileReader(fn[i]));
                 String line;
                 String[] line_tokens;

@@ -18,6 +18,7 @@ public class ArrFPKM {
     ArrayList<Double> y_list = new ArrayList<Double>();
     ArrayList<Double> variance_list = new ArrayList<Double>();
     Map<String, Double> cv = null;
+    Boolean status_ok = true;
 
     public void append(double y, double sd){
         this.y_list.add(y);
@@ -77,6 +78,15 @@ public class ArrFPKM {
 
         this.cv = group_to_cv_map;
         return group_to_cv_map;
+    }
+
+    public void set_status_ok(double status_max_cv){
+        for(double aCV_val : this.cv.values()){
+            if (aCV_val>status_max_cv){
+                this.status_ok=false;
+                break;
+            }
+        }
     }
 
 }

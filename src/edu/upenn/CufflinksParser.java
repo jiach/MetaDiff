@@ -20,13 +20,14 @@ public class CufflinksParser {
     public CufflinksParser() {
     }
 
-    public CufflinksParser(String[] fn){
-        this.read_in_file(fn);
+    public CufflinksParser(String[] fn, Logger log){
+        this.read_in_file(fn, log);
     }
 
-    public void read_in_file(String[] fn){
+    public void read_in_file(String[] fn, Logger log){
         try {
             for (int i = 0; i < fn.length; i++) {
+                log.log_message("processing file: "+fn[i]);
                 BufferedReader in = new BufferedReader(new FileReader(fn[i]));
                 String line;
                 String[] line_tokens;
@@ -86,8 +87,10 @@ public class CufflinksParser {
 
             Boolean remove_isoform = false;
             for (Double aCV_val : cur_cv.values()){
-                if(aCV_val.isInfinite() || aCV_val.isNaN() || (aCV_val>max_cv)){
+                if(aCV_val.isInfinite() || aCV_val.isNaN() || (aCV_val>1)){
                     remove_isoform = true;
+                }else{
+                    entry.getValue().set_status_ok(max_cv);
                 }
             }
 
@@ -95,10 +98,11 @@ public class CufflinksParser {
                 it.remove();
             }
         }
+
     }
 
-    public String get_cv_str(String sample_id, String[]  gropu_id){
-
+    public Boolean get_ok_status(String isoform_name){
+        return this.dict_arr_fpkm.get(isoform_name).status_ok;
     }
 
     public String get_mat_output_string(String[][] cov_mat){

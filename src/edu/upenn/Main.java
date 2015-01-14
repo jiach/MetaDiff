@@ -4,9 +4,12 @@
 package edu.upenn;
 
 import org.apache.commons.cli.*;
-import org.apache.commons.math3.util.FastMath;
 
 import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Main {
 
@@ -20,7 +23,7 @@ public class Main {
         Option opt_output_dir = OptionBuilder.withArgName( "output_dir" ).hasArg().isRequired().withDescription("specify the location where temporary files and final results are stores.").create("output_dir");
         Option opt_method = OptionBuilder.withArgName( "method" ).hasArg().isRequired().withDescription("specify the method with which the input files are generated. 0-Cufflinks, 1-MMSEQ. ").create("method");
         Option opt_fpkm_threshold = OptionBuilder.withArgName("mean_fpkm_threshold").hasArg().withDescription("specify the lowest mean FPKM for the isoform to be considered and analyzed").create("mean_fpkm_threshold");
-        Option opt_cv_threshold = OptionBuilder.withArgName( "cv_threshold" ).hasArg().withDescription("specify the highest coefficient of variation of the FPKM for the isoform to be considered and analyzed").create("cv_threshold");
+        Option opt_cv_threshold = OptionBuilder.withArgName( "cv_threshold" ).hasArg().withDescription("specify the highest coefficient of variation of the FPKM for the isoform to pass STATUS check").create("cv_threshold");
         Option opt_num_cores = OptionBuilder.withArgName("num_cores").hasArg().withDescription("specify the number of cores used to run the R script.").create("num_cores");
         options.addOption(opt_input_file_list);
         options.addOption(opt_output_dir);
@@ -73,18 +76,8 @@ public class Main {
 
 
         //initialize buffered writer for log file
-        if (verbose) {
-            System.err.println("Starting logging to file: "+output_dir+"/metadiff.log");
-        }
-        BufferedWriter metadiffj_log_writer = null;
-        try {
-            metadiffj_log_writer = new BufferedWriter(new FileWriter(output_dir+"/metadiff.log"));
-            metadiffj_log_writer.write("Starting logging to file: "+output_dir+"/metadiff.log");
-            metadiffj_log_writer.newLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        Logger metadiff_log = new Logger(verbose,output_dir+"/metadiff.log");
+        metadiff_log.log_message("Starting logging to file: " + output_dir + "/metadiff.log");
 
         //read in the list of inputs.
         InputList fpkm_list = new InputList();
@@ -111,27 +104,23 @@ public class Main {
         CufflinksParser fpkm_parser = null;
 
         if (method.equals("0")){
-            fpkm_parser = new CufflinksParser(sorted_filename);
+            fpkm_parser = new CufflinksParser(sorted_filename, metadiff_log);
         }else if (method.equals("1")) {
-            fpkm_parser = new MmseqParser(sorted_filename);
+            fpkm_parser = new MmseqParser(sorted_filename, metadiff_log);
         }
 
-        if (verbose) {
-            System.err.println("Filtering isoforms according to mean_fpkm_threshold = "+min_fpkm_mean);
-        }
+        metadiff_log.log_message("Filtering isoforms according to mean_fpkm_threshold = " + min_fpkm_mean);
 
         fpkm_parser.trim_isoforms(Double.parseDouble(min_fpkm_mean),fpkm_list.get_num_sample());
-        if (verbose) {
-            System.err.println(Long.toString(fpkm_parser.get_num_isoforms())+" isoforms remaining after trimming");
-        }
+
+        metadiff_log.log_message(Long.toString(fpkm_parser.get_num_isoforms()) + " isoforms remaining after filtering");
 
         if (fpkm_list.has_group_var){
-            System.err.println("Filtering isoforms according to cv_threshold = " + max_cv);
+            metadiff_log.log_message("Filtering isoforms according to cv_threshold = 1");
             fpkm_parser.trim_isoform(Double.parseDouble(max_cv),fpkm_list.get_group_var(sorted_sample_id));
+            metadiff_log.log_message(Long.toString(fpkm_parser.get_num_isoforms())+" isoforms remaining after filtering");
         }else{
-            if (verbose) {
-                System.err.println("Group variable \"C_group\" not provided, skipping filtering with CV.");
-            }
+            metadiff_log.log_message("Group variable \"C_group\" not provided, skipping filtering with CV");
         }
 
         fpkm_parser.write_tmp_file(output_dir, fpkm_list.get_cov_mat(sorted_sample_id), fpkm_list.get_cov_header_string());
@@ -147,10 +136,8 @@ public class Main {
         if (r_parallel){
             r_script_cmd = r_script_cmd+" "+Integer.toString(num_cores);
         }
-        if (verbose) {
-            System.err.println("Running R script for metatest: \n"+r_script_cmd);
-            System.err.println("Please be patient.");
-        }
+        metadiff_log.log_message("Running R script for metatest: \n" + r_script_cmd);
+
         try {
             Process child = Runtime.getRuntime().exec(r_script_cmd);
             child.waitFor();
@@ -163,28 +150,41 @@ public class Main {
 
             BufferedWriter rscript_out_writer = new BufferedWriter(new FileWriter(output_dir+"/metadiff_results.tsv"));
 
-            String s = null;
-
-            if (verbose) {
-                System.err.println("Writing results to file: "+output_dir+"/metadiff_results.tsv");
+            String s = rscript_out.readLine();
+            rscript_out_writer.write(s);
+            if (fpkm_list.has_group_var){
+                rscript_out_writer.write("\tStatus");
             }
-            while ((s = rscript_out.readLine()) != null) {
+            rscript_out_writer.newLine();
 
-                rscript_out_writer.write(s);
-                rscript_out_writer.newLine();
+            metadiff_log.log_message("Writing results to file: " + output_dir + "/metadiff_results.tsv");
+
+            if (fpkm_list.has_group_var) {
+                while ((s = rscript_out.readLine()) != null) {
+
+                    rscript_out_writer.write(s);
+                    String[] str_tokens=s.split("\t");
+                    if (fpkm_parser.get_ok_status(str_tokens[0]) & str_tokens[1].equals("0")) {
+                        rscript_out_writer.write("\tOK");
+                    }else{
+                        rscript_out_writer.write("\tFailed");
+                    }
+                    rscript_out_writer.newLine();
+                }
+            }else{
+                while ((s = rscript_out.readLine()) != null) {
+
+                    rscript_out_writer.write(s);
+                    rscript_out_writer.newLine();
+                }
             }
 
             rscript_out_writer.flush();
             rscript_out_writer.close();
 
             while ((s = rscript_log.readLine()) != null) {
-
-                metadiffj_log_writer.write(s);
-                metadiffj_log_writer.newLine();
+                metadiff_log.r_log(s);
             }
-
-            metadiffj_log_writer.flush();
-            metadiffj_log_writer.close();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -193,5 +193,7 @@ public class Main {
         }
 
 
+        metadiff_log.end_logging();
     }
+
 }
