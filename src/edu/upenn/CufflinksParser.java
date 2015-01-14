@@ -7,6 +7,7 @@ package edu.upenn;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
+import java.nio.file.Path;
 import java.util.*;
 
 /**
@@ -50,9 +51,9 @@ public class CufflinksParser {
         }
     }
 
-    public void write_tmp_file(String output_dir, String[][] cov_mat, String header){
+    public void write_tmp_file(Path output_dir, String[][] cov_mat, String header){
 
-        String mat_fn = output_dir+"/fpkm.mat";
+        String mat_fn = output_dir.resolve("fpkm.mat").toString();
 
         try {
             PrintWriter mat_fout = new PrintWriter(new File(mat_fn));

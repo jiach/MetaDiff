@@ -34,6 +34,7 @@ public class Logger {
         try {
             this.metadiffj_log_writer.write(message);
             this.metadiffj_log_writer.newLine();
+            this.metadiffj_log_writer.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -57,6 +58,7 @@ public class Logger {
         try {
             this.metadiffj_log_writer.write(message);
             this.metadiffj_log_writer.newLine();
+            this.metadiffj_log_writer.flush();
         } catch (IOException e){
             e.printStackTrace();
         }

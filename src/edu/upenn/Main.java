@@ -124,13 +124,13 @@ public class Main {
             metadiff_log.log_message("Group variable \"C_group\" not provided, skipping filtering with CV");
         }
 
-        fpkm_parser.write_tmp_file(output_dir, fpkm_list.get_cov_mat(sorted_sample_id), fpkm_list.get_cov_header_string());
+        fpkm_parser.write_tmp_file(output_path, fpkm_list.get_cov_mat(sorted_sample_id), fpkm_list.get_cov_header_string());
 
         RScriptBuilder rscript_builder = new RScriptBuilder();
-        String r_script_fn = output_dir+"/run_metatest.R";
+        String r_script_fn = output_path.resolve("run_metatest.R").toString();
         rscript_builder.write_to_R_script(r_parallel, fpkm_list.get_arr_cov_string(),r_script_fn);
 
-        String r_script_cmd = "Rscript "+r_script_fn+" "+output_dir+"/fpkm.mat";
+        String r_script_cmd = "Rscript "+r_script_fn+" "+output_path.resolve("fpkm.mat").toString();
         if (r_parallel){
             r_script_cmd = r_script_cmd+" "+Integer.toString(num_cores);
         }
