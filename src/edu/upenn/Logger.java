@@ -49,18 +49,7 @@ public class Logger {
         }
     }
 
-    public void r_log(String message){
-        message = "[R Script]:\t"+message;
-        if(this.verbose){
-            System.err.println(message);
-        }
-
-        try {
-            this.metadiffj_log_writer.write(message);
-            this.metadiffj_log_writer.newLine();
-            this.metadiffj_log_writer.flush();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
+    public BufferedWriter get_file_handle(){
+        return this.metadiffj_log_writer;
     }
 }

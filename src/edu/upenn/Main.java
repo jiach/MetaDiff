@@ -4,6 +4,7 @@
 package edu.upenn;
 
 import org.apache.commons.cli.*;
+import org.apache.commons.lang3.StringUtils;
 import ubic.basecode.math.MultipleTestCorrection;
 
 import java.io.*;
@@ -130,21 +131,19 @@ public class Main {
         String r_script_fn = output_path.resolve("run_metatest.R").toString();
         rscript_builder.write_to_R_script(r_parallel, fpkm_list.get_arr_cov_string(),r_script_fn);
 
-        String r_script_cmd = "Rscript "+r_script_fn+" "+output_path.resolve("fpkm.mat").toString();
-        if (r_parallel){
-            r_script_cmd = r_script_cmd+" "+Integer.toString(num_cores);
-        }
-        metadiff_log.log_message("Running R script for metatest: \n" + r_script_cmd);
+
+        ProcessBuilder run_rscript = new ProcessBuilder("Rscript", r_script_fn, output_path.resolve("fpkm.mat").toString(),Integer.toString(num_cores)).redirectError(ProcessBuilder.Redirect.to(new File(output_path.resolve("metadiff_r.log").toString())));
+
+
+        metadiff_log.log_message("Running R script for metatest: \n" + StringUtils.join(run_rscript.command(), " "));
 
         try {
-            Process child = Runtime.getRuntime().exec(r_script_cmd);
+
+            Process child = run_rscript.start();
             child.waitFor();
 
-            BufferedReader rscript_out = new BufferedReader(new
-                    InputStreamReader(child.getInputStream()));
+            BufferedReader rscript_out = new BufferedReader(new InputStreamReader(child.getInputStream()));
 
-            BufferedReader rscript_log = new BufferedReader(new
-                    InputStreamReader(child.getErrorStream()));
 
             BufferedWriter rscript_out_writer = new BufferedWriter(new FileWriter(output_dir+"/metadiff_results.tsv"));
 
@@ -179,10 +178,6 @@ public class Main {
 
             rscript_out_writer.flush();
             rscript_out_writer.close();
-
-            while ((s = rscript_log.readLine()) != null) {
-                metadiff_log.r_log(s);
-            }
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -15,5 +15,6 @@
     <orderEntry type="library" name="commons-math3-3.3" level="project" />
     <orderEntry type="library" name="guava-18.0" level="project" />
     <orderEntry type="library" name="baseCode" level="project" />
+    <orderEntry type="library" name="colt" level="project" />
   </component>
 </module>
