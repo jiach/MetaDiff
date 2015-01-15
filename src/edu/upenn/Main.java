@@ -10,6 +10,8 @@ import ubic.basecode.math.MultipleTestCorrection;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
@@ -137,54 +139,52 @@ public class Main {
 
         metadiff_log.log_message("Running R script for metatest: \n" + StringUtils.join(run_rscript.command(), " "));
 
+        BufferedReader rscript_out = null;
+        List<String> rscript_out_arr = new ArrayList<String>();
+
+        Process child = null;
         try {
-
-            Process child = run_rscript.start();
+            child = run_rscript.start();
             child.waitFor();
-
-            BufferedReader rscript_out = new BufferedReader(new InputStreamReader(child.getInputStream()));
-
-
-            BufferedWriter rscript_out_writer = new BufferedWriter(new FileWriter(output_dir+"/metadiff_results.tsv"));
-
-            String s = rscript_out.readLine();
-            rscript_out_writer.write(s);
-            if (fpkm_list.has_group_var){
-                rscript_out_writer.write("\tStatus");
+            rscript_out = new BufferedReader(new InputStreamReader(child.getInputStream()));
+            String s;
+            while ((s = rscript_out.readLine()) != null){
+                rscript_out_arr.add(s);
             }
-            rscript_out_writer.newLine();
-
-            metadiff_log.log_message("Writing results to file: " + output_dir + "/metadiff_results.tsv");
-
-            if (fpkm_list.has_group_var) {
-                while ((s = rscript_out.readLine()) != null) {
-
-                    rscript_out_writer.write(s);
-                    String[] str_tokens=s.split("\t");
-                    if (fpkm_parser.get_ok_status(str_tokens[0]) & str_tokens[1].equals("0")) {
-                        rscript_out_writer.write("\tOK");
-                    }else{
-                        rscript_out_writer.write("\tFailed");
-                    }
-                    rscript_out_writer.newLine();
-                }
-            }else{
-                while ((s = rscript_out.readLine()) != null) {
-
-                    rscript_out_writer.write(s);
-                    rscript_out_writer.newLine();
-                }
-            }
-
-            rscript_out_writer.flush();
-            rscript_out_writer.close();
-
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
+
+        PostProcessor rscript_out_proc = new PostProcessor(rscript_out_arr, output_path.resolve("metadiff_results.tsv").toString(),fpkm_list.has_group_var);
+        metadiff_log.log_message(output_path.resolve("metadiff_results.tsv").toString());
+
+
+//        if (fpkm_list.has_group_var) {
+//            while ((s = rscript_out.readLine()) != null) {
+//
+//                rscript_out_writer.write(s);
+//                String[] str_tokens=s.split("\t");
+//                if (fpkm_parser.get_ok_status(str_tokens[0]) & str_tokens[1].equals("0")) {
+//                    rscript_out_writer.write("\tOK");
+//                }else{
+//                    rscript_out_writer.write("\tFailed");
+//                }
+//                rscript_out_writer.newLine();
+//            }
+//        }else{
+//            while ((s = rscript_out.readLine()) != null) {
+//
+//                rscript_out_writer.write(s);
+//                rscript_out_writer.newLine();
+//            }
+//        }
+//
+//        rscript_out_writer.flush();
+//        rscript_out_writer.close();
+//
 
         metadiff_log.end_logging();
     }
