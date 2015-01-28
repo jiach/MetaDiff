@@ -115,6 +115,9 @@ Some temporary files are also created:
 
 NB: As of right now, MetaDiff has yet to implement FDR adjustments of the P-values generated from the script. You need to do it manually in your favorite statistical packages. In future versions, this function will be incorporated into the MetaDiff package.
 
+## Author
+The author of this package is Cheng Jia, a Ph.D. candidate advised by Dr. Mingyao Li in the Department of Biostatistics and Epidemiology at University of Pennsylvania. Any questions with regards to the functions of this package should be directed to Cheng Jia. The E-mail of the author is: jiacheng AT mail.med.upenn.edu.
+
 ## License
 
 Copyright (c) <2015> <Cheng Jia>
