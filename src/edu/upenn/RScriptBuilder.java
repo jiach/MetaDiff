@@ -24,14 +24,13 @@ public class RScriptBuilder {
             "  tryCatch({  meta_obj <- metatest(formula = y~";
 
     private String r_script_pt2 = ", variance = variance, data=mat)\n" +
-            "              res_vec <- c(meta_obj$convergence, meta_obj$coefficients, meta_obj$se, meta_obj$tval, meta_obj$dfttest, meta_obj$pttest, meta_obj$LLR, meta_obj$pLLR, meta_obj$bartLLR, meta_obj$bartscale, meta_obj$pBartlett, meta_obj$ppermtest)\n" +
+            "              res_vec <- c(meta_obj$convergence, meta_obj$tval, meta_obj$dfttest, meta_obj$pttest, meta_obj$bartLLR, meta_obj$pBartlett)\n" +
             "              cov_name <- dimnames(meta_obj$coefficients)[[1]]\n" +
-            "              names_vec <- c('Convergence', paste('coef_',cov_name,sep=''), paste('se_',cov_name,sep=''), paste('tval_',cov_name,sep=''), 'dfttest', paste('pttest_',cov_name,sep=''),paste('LLR_',cov_name,sep=''), paste('pLLR_',cov_name,sep=''), paste('bartLLR_',cov_name,sep=''), paste('bartscale',cov_name,sep=''), paste('pBartlett_',cov_name,sep=''), paste('ppermtest_',cov_name,sep=''))\n" +
+            "              names_vec <- c('Convergence', paste('tval_',cov_name,sep=''), 'dfttest', paste('pttest_',cov_name,sep=''), paste('bartLLR_',cov_name,sep=''), paste('pBartlett_',cov_name,sep=''))\n" +
             "              names(res_vec)<-names_vec\n" +
             "              return(res_vec)}, error = function(e) {\n" +
             "                warning(paste('Metatest failed at Isoform: ', mat[1,1],sep=''))\n" +
-            "                return(NULL)})}\n" +
-            "write(c(paste('Running Rscript with ',nodes,' cores.',sep='')), stderr())\n" +
+            "                return(NULL)})}" +
             "\n" +
             "cl <- makeCluster(nodes)\n" +
             "registerDoParallel(cl)\n" +
@@ -52,15 +51,13 @@ public class RScriptBuilder {
             "  tryCatch({  meta_obj <- metatest(formula = y~";
 
     private String r_script_sing_pt2 = ", variance = variance, data=mat)\n" +
-            "              res_vec <- c(meta_obj$convergence, meta_obj$coefficients, meta_obj$se, meta_obj$tval, meta_obj$dfttest, meta_obj$pttest, meta_obj$LLR, meta_obj$pLLR, meta_obj$bartLLR, meta_obj$bartscale, meta_obj$pBartlett, meta_obj$ppermtest)\n" +
+            "              res_vec <- c(meta_obj$convergence, meta_obj$tval, meta_obj$dfttest, meta_obj$pttest, meta_obj$bartLLR, meta_obj$pBartlett)\n" +
             "              cov_name <- dimnames(meta_obj$coefficients)[[1]]\n" +
-            "              names_vec <- c('Convergence', paste('coef_',cov_name,sep=''), paste('se_',cov_name,sep=''), paste('tval_',cov_name,sep=''), 'dfttest', paste('pttest_',cov_name,sep=''),paste('LLR_',cov_name,sep=''), paste('pLLR_',cov_name,sep=''), paste('bartLLR_',cov_name,sep=''), paste('bartscale',cov_name,sep=''), paste('pBartlett_',cov_name,sep=''), paste('ppermtest_',cov_name,sep=''))\n" +
+            "              names_vec <- c('Convergence', paste('tval_',cov_name,sep=''), 'dfttest', paste('pttest_',cov_name,sep=''), paste('bartLLR_',cov_name,sep=''), paste('pBartlett_',cov_name,sep=''))\n" +
             "              names(res_vec)<-names_vec\n" +
             "              return(res_vec)}, error = function(e) {\n" +
             "                warning(paste('Metatest failed at Isoform: ', mat[1,1],sep=''))\n" +
             "                return(NULL)})}" +
-            "\n" +
-            "df_res <- ddply(data_mat, .(Isoform), .fun = failwith(NULL,run_metatest))\n" +
             "\n" +
             "write.table(df_res, file = \"\", row.names = F, quote=F, sep='\\t')";
 

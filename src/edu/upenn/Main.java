@@ -139,18 +139,17 @@ public class Main {
 
         metadiff_log.log_message("Running R script for metatest: \n" + StringUtils.join(run_rscript.command(), " "));
 
-        BufferedReader rscript_out = null;
-        List<String> rscript_out_arr = new ArrayList<String>();
+        StreamGobbler err_stream_gob=null;
+        StreamGobbler std_stream_gob=null;
 
         Process child = null;
         try {
             child = run_rscript.start();
+            err_stream_gob = new StreamGobbler(child.getErrorStream(),metadiff_log);
+            std_stream_gob = new StreamGobbler(child.getInputStream());
+            err_stream_gob.start();
+            std_stream_gob.start();
             child.waitFor();
-            rscript_out = new BufferedReader(new InputStreamReader(child.getInputStream()));
-            String s;
-            while ((s = rscript_out.readLine()) != null){
-                rscript_out_arr.add(s);
-            }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -158,34 +157,10 @@ public class Main {
         }
 
 
-        PostProcessor rscript_out_proc = new PostProcessor(rscript_out_arr, output_path.resolve("metadiff_results.tsv").toString(),fpkm_list.has_group_var);
+        PostProcessor rscript_out_proc = new PostProcessor(std_stream_gob.get_contents(), output_path.resolve("metadiff_results.tsv").toString(),fpkm_list.has_group_var);
         metadiff_log.log_message(output_path.resolve("metadiff_results.tsv").toString());
-
-
-//        if (fpkm_list.has_group_var) {
-//            while ((s = rscript_out.readLine()) != null) {
-//
-//                rscript_out_writer.write(s);
-//                String[] str_tokens=s.split("\t");
-//                if (fpkm_parser.get_ok_status(str_tokens[0]) & str_tokens[1].equals("0")) {
-//                    rscript_out_writer.write("\tOK");
-//                }else{
-//                    rscript_out_writer.write("\tFailed");
-//                }
-//                rscript_out_writer.newLine();
-//            }
-//        }else{
-//            while ((s = rscript_out.readLine()) != null) {
-//
-//                rscript_out_writer.write(s);
-//                rscript_out_writer.newLine();
-//            }
-//        }
-//
-//        rscript_out_writer.flush();
-//        rscript_out_writer.close();
-//
-
+        rscript_out_proc.write_to_results(fpkm_parser);
+        rscript_out_proc.close();
         metadiff_log.end_logging();
     }
 
