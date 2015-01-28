@@ -55,11 +55,11 @@ input_file_list - this is a tab-delimited file that contains the file locations 
 The first two columns indicate the sample_id and the file_names associated with that sample_id. Sample_ID can be any unique identifier of your sample (no two sample IDs should be the same). 
 Use absolute path (path starting from root /) in File_name to avoid confusion of the program.
 
-There can be any number of covariates in any order. Names of the covariates need to following the conventions of R variable names. The rule of thumb is to use letters, underscore and numbers, and to start the name with a letter.
+There can be any number of covariates in any order. Names of the covariates need to follow the conventions of R variable names. The rule of thumb is to use letters, underscore and numbers, and to start the name with a letter.
 Categorical covariates NEED to be prefixed with C_ in their names.
 
-The C_group variable is the default variable name for the experimental group. The program will look specifically for this covariate to determine the group to which each subject belongs. 
-If you need cv_threshold adjustment, this variable has to be present in the list file, and needs to be named C_group.
+The C_group variable is the default variable name for the experimental group. Please do not use any other name for the group variable. 
+The program will look specifically for this covariate to determine the group to which each subject belongs. If you need cv_threshold adjustment, this variable has to be present in the list file, and needs to be named C_group.
 
 output_dir - again, use absolute path to avoid confusion.
 
