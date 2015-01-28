@@ -1,18 +1,14 @@
 package edu.upenn;
 
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
-
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  * Created by cheng on 1/14/15.
  */
 
-//TODO: need to finish post processor with the following functions: 1. status_ok check 2. fdr output
+//TODO: need to finish post processor with the following functions: fdr output
 public class PostProcessor {
     private String[] metatest_out_str_arr;
     private BufferedWriter rscript_out;

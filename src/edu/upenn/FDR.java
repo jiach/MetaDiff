@@ -2,9 +2,9 @@ package edu.upenn;
 
 import cern.colt.list.DoubleArrayList;
 import ubic.basecode.math.MultipleTestCorrection;
+
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Created by jiacheng on 1/14/2015.
