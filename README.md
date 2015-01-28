@@ -113,6 +113,8 @@ Some temporary files are also created:
 
 `metadiff_r.log` - standard error output from the R script;
 
+NB: As of right now, MetaDiff has yet to implement FDR adjustments of the P-values generated from the script. You need to do it manually in your favorite statistical packages manually. In future versions, this function will be incorporated into the MetaDiff package.
+
 ## License
 
 Copyright (c) <2015> <Cheng Jia>
