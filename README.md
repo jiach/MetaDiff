@@ -41,7 +41,7 @@ Download this JAR file to any location to your liking (for example /home/mason/m
 
 These three parameters are required:
 
-input_file_list - this is the file that contains the file locations and covariate information separated by tabs with header line. Here's an example:
+input_file_list - this is a tab-delimited file that contains the file locations and covariate information separated by tabs with header line. Here's an example:
 
 | Sample 	| File_Name                                                                   	| C_group 	| age 	| C_gender 	|
 |--------	|-----------------------------------------------------------------------------	|---------	|-----	|----------	|
