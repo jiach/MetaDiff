@@ -1,19 +1,17 @@
 ## Synopsis
 
-This program takes a list of files containing the gene/isoform expression data, and tests for differential
-
-## Code Example
-
-Show what the library does as concisely as possible, developers should be able to figure out **how** your project solves their problem by looking at the code example. Make sure the API you are showing off is obvious, and that your code is short and concise.
+MetaDiff is a Java/R-based software package that performs differential expression analysis on RNA-Seq based data. By utilizing a meta-regression framework, it is also readily capable of incorporating covariates other than experimental group. This makes it extremely easy to adjust for parameters that might influence a subject's transcriptome when performing differential expression analysis.
 
 ## Motivation
 
-A short description of the motivation behind the creation and maintenance of the project. This should explain **why** the project exists.
+When performing differential expression analysis, often one wishes to adjust for parameters other than experimental group. For example, the age and gender of a subject might
 
 ## Installation
 
-Provide code examples and explanations of how to get the project.
-https://github.com/jiach/MetaDiff/blob/master/out/artifacts/MetaDiffJ_jar/MetaDiffJ.jar?raw=true
+A compiled JAR package is ready for download at:
+http://github.com/jiach/MetaDiff/blob/master/out/artifacts/MetaDiffJ_jar/MetaDiffJ.jar?raw=true
+
+Download this JAR file to any location to your liking (for example /home/mason/myfavoriaternaseqprograms/MetaDiffJ.jar), and invoke
 
 ## API Reference
 
