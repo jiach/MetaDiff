@@ -6,12 +6,7 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="da8eb269-81ce-440d-ae56-627224c8f415" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/upenn/FDR.java" afterPath="$PROJECT_DIR$/src/edu/upenn/FDR.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/upenn/Main.java" afterPath="$PROJECT_DIR$/src/edu/upenn/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/upenn/PostProcessor.java" afterPath="$PROJECT_DIR$/src/edu/upenn/PostProcessor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="da8eb269-81ce-440d-ae56-627224c8f415" name="Default" comment="" />
     <ignored path="MetaDiffJ.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -566,12 +561,12 @@
       <workItem from="1421974684571" duration="664000" />
       <workItem from="1421978143788" duration="48000" />
       <workItem from="1422457949357" duration="164000" />
-      <workItem from="1422458132435" duration="18000" />
+      <workItem from="1422458132435" duration="612000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="87301000" />
+    <option name="totallyTimeSpent" value="87895000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1431" y="-4" width="1855" height="1084" extended-state="6" />
