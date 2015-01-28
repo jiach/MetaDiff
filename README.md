@@ -78,6 +78,8 @@ If you have a multi-core system, I would highly recommend enabling this option b
 
 `verbose` - print the messages on screen in addition to writing it to log files.
 
+Notice that the program works on both gene and isoform-level DE experiments. Just provide corresponding files generated from upstream software (cufflinks or mmseq). Since the formats are identical for these packages, MetaDiff treats gene and isoform-level DE analyses identically. 
+
 ## Output
 
 The program will generate the following files in the output_dir provided:
