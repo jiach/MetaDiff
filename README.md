@@ -37,7 +37,7 @@ Download this JAR file to any location to your liking (for example /home/mason/m
 
 ## Usage
 
-java -jar /home/mason/myfavoriaternaseqprograms/MetaDiff.jar -input_file_list input_list.tsv -output_dir /home/mason/metadiff_results/ -method cufflinks
+`java -jar /home/mason/myfavoriaternaseqprograms/MetaDiff.jar -input_file_list input_list.tsv -output_dir /home/mason/metadiff_results/ -method cufflinks`
 
 These three parameters are required:
 
