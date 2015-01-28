@@ -41,7 +41,7 @@ Download this JAR file to any location to your liking (for example /home/mason/m
 
 These three parameters are required:
 
-input_file_list - this is a tab-delimited file that contains the file locations and covariate information separated by tabs with header line. Here's an example:
+`input_file_list` - this is a tab-delimited file that contains the file locations and covariate information separated by tabs with header line. Here's an example:
 
 | Sample 	| File_Name                                                                   	| C_group 	| age 	| C_gender 	|
 |--------	|-----------------------------------------------------------------------------	|---------	|-----	|----------	|
@@ -61,28 +61,28 @@ Categorical covariates NEED to be prefixed with C_ in their names.
 The C_group variable is the default variable name for the experimental group. Please do not use any other name for the group variable. 
 The program will look specifically for this covariate to determine the group to which each subject belongs. If you need cv_threshold adjustment, this variable has to be present in the list file, and needs to be named C_group.
 
-output_dir - again, use absolute path to avoid confusion.
+`output_dir` - again, use absolute path to avoid confusion.
 
-method - indicates which software package generated the files in the input_file_list, as of right now the program supports 'cufflinks' and 'mmseq'.
+`method` - indicates which software package generated the files in the input_file_list, as of right now the program supports 'cufflinks' and 'mmseq'.
 
 
 Some optional parameters can also be provided:
 
-cv_threshold - the program automatically removes samples with coefficient of variations from all groups >1. However, if you need further filtering with regards to CV, you can provide your cut off here.
+`cv_threshold` - the program automatically removes samples with coefficient of variations from all groups >1. However, if you need further filtering with regards to CV, you can provide your cut off here.
 The program will label the samples with CVs from ALL groups > cv_threshold as STATUS = FAILED in the output.
 
-mean_fpkm_threshold - the program by default removes samples with the average FPKM from all groups <= 1. If you want to change this parameter, you can provide your own cut-off here.
+`mean_fpkm_threshold` - the program by default removes samples with the average FPKM from all groups <= 1. If you want to change this parameter, you can provide your own cut-off here.
 
-num_cores - the program supports parallel computing with plyr and doParallel package in R. This parameter indicates the number of concurrent processes you wish to run when performing meta-regression with R. By default the program will only run 1 process.
+`num_cores` - the program supports parallel computing with plyr and doParallel package in R. This parameter indicates the number of concurrent processes you wish to run when performing meta-regression with R. By default the program will only run 1 process.
 If you have a multi-core system, I would highly recommend enabling this option by providing the number of cores you wish to use, because it will dramatically increase the speed of the program.
 
-verbose - print the messages on screen in addition to writing it to log files. 
+`verbose` - print the messages on screen in addition to writing it to log files.
 
 ## Output
 
 The program will generate the following files in the output_dir provided:
-metadiff_results.tsv - a tab-delimited file containing the results of meta-regression. Usually it will be made of these columns:
-Isoform - names of the isoform or gene (the name of this column will be changed to "Feature_ID" in future updates);
+`metadiff_results.tsv` - a tab-delimited file containing the results of meta-regression. Usually it will be made of these columns:
+`Isoform` - names of the isoform or gene (the name of this column will be changed to "Feature_ID" in future updates);
 Convergence - convergence status output by metatest;
 tval_CovariateName - t-test statistics for each covariate;
 dfttest - degrees of freedom for the t-test;
@@ -93,10 +93,10 @@ Status - OK indicates that the model has converged and the CV of FPKM for all gr
 
 
 Some temporary files are also created:
-fpkm.mat - temporary files containing all the fpkm values, their variances and the covariates of the corresponding sample;
-run_metatest.R - R script to perform metatest;
-metadiff.log - log file containing all the operations performed by MetaDiff;
-metadiff_r.log - standard error output from the R script;
+`fpkm.mat` - temporary files containing all the fpkm values, their variances and the covariates of the corresponding sample;
+`run_metatest.R` - R script to perform metatest;
+`metadiff.log` - log file containing all the operations performed by MetaDiff;
+`metadiff_r.log` - standard error output from the R script;
 
 ## License
 
