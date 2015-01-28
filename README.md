@@ -81,21 +81,34 @@ If you have a multi-core system, I would highly recommend enabling this option b
 ## Output
 
 The program will generate the following files in the output_dir provided:
+
 `metadiff_results.tsv` - a tab-delimited file containing the results of meta-regression. Usually it will be made of these columns:
-`Isoform` - names of the isoform or gene (the name of this column will be changed to "Feature_ID" in future updates);
+
+Isoform - names of the isoform or gene (the name of this column will be changed to "Feature_ID" in future updates);
+
 Convergence - convergence status output by metatest;
+
 tval_CovariateName - t-test statistics for each covariate;
+
 dfttest - degrees of freedom for the t-test;
+
 pttest_CovariateName - t-test p-values for each covariate;
+
 bartLLR_CovariateName - Bartlett corrected LLR statistics for each covariate;
+
 pBartlett_CovariateName - Bartlett corrected LLR p-value for each covariate;
+
 Status - OK indicates that the model has converged and the CV of FPKM for all groups are <= cv_threshold
 
 
 Some temporary files are also created:
+
 `fpkm.mat` - temporary files containing all the fpkm values, their variances and the covariates of the corresponding sample;
+
 `run_metatest.R` - R script to perform metatest;
+
 `metadiff.log` - log file containing all the operations performed by MetaDiff;
+
 `metadiff_r.log` - standard error output from the R script;
 
 ## License
