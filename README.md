@@ -13,6 +13,7 @@ A short description of the motivation behind the creation and maintenance of the
 ## Installation
 
 Provide code examples and explanations of how to get the project.
+https://github.com/jiach/MetaDiff/blob/master/out/artifacts/MetaDiffJ_jar/MetaDiffJ.jar?raw=true
 
 ## API Reference
 
