@@ -104,8 +104,11 @@ Status - OK indicates that the model has converged and the CV of FPKM for all gr
 Some temporary files are also created:
 
 `fpkm.mat` - temporary files containing all the fpkm values, their variances and the covariates of the corresponding sample.
+
 `run_metatest.R` - R script to perform metatest.
+
 `metadiff.log` - log file containing all the operations performed by MetaDiff.
+
 `metadiff_r.log` - standard error output from the R script;
 
 ## License

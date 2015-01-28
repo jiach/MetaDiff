@@ -95,8 +95,8 @@
       <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.60456944" vertical-offset="1261" max-vertical-offset="1875">
-              <caret line="107" column="78" selection-start-line="107" selection-start-column="78" selection-end-line="107" selection-end-column="78" />
+            <state vertical-scroll-proportion="0.68365556" vertical-offset="1261" max-vertical-offset="1920">
+              <caret line="110" column="0" selection-start-line="110" selection-start-column="0" selection-end-line="110" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -572,12 +572,12 @@
       <workItem from="1421978143788" duration="48000" />
       <workItem from="1422457949357" duration="164000" />
       <workItem from="1422458132435" duration="612000" />
-      <workItem from="1422459395551" duration="6327000" />
+      <workItem from="1422459395551" duration="6388000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="94222000" />
+    <option name="totallyTimeSpent" value="94283000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1431" y="24" width="1855" height="1056" extended-state="6" />
@@ -1089,8 +1089,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.60456944" vertical-offset="1261" max-vertical-offset="1875">
-          <caret line="107" column="78" selection-start-line="107" selection-start-column="78" selection-end-line="107" selection-end-column="78" />
+        <state vertical-scroll-proportion="0.68365556" vertical-offset="1261" max-vertical-offset="1920">
+          <caret line="110" column="0" selection-start-line="110" selection-start-column="0" selection-end-line="110" selection-end-column="0" />
           <folding />
         </state>
       </provider>
