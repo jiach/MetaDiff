@@ -43,19 +43,14 @@ These three parameters are required:
 
 input_file_list - this is the file that contains the file locations and covariate information separated by tabs with header line. Here's an example:
 
-Sample	File_Name   C_group	age	C_gender
-
-simu1	/home/cheng/Dissertation/MetaDiff/HeartFailure/simu1/isoforms.fpkm_tracking	0	40	female
-
-simu2	/home/cheng/Dissertation/MetaDiff/HeartFailure/simu2/isoforms.fpkm_tracking	0	38	male
-
-simu3	/home/cheng/Dissertation/MetaDiff/HeartFailure/simu3/isoforms.fpkm_tracking	0	56	male
-
-simu4	/home/cheng/Dissertation/MetaDiff/HeartFailure/simu4/isoforms.fpkm_tracking	1	52	male
-
-simu5	/home/cheng/Dissertation/MetaDiff/HeartFailure/simu5/isoforms.fpkm_tracking	1	47	male
-
-simu6	/home/cheng/Dissertation/MetaDiff/HeartFailure/simu6/isoforms.fpkm_tracking	1	41	female
+| Sample 	| File_Name                                                                   	| C_group 	| age 	| C_gender 	|
+|--------	|-----------------------------------------------------------------------------	|---------	|-----	|----------	|
+| simu1  	| /home/cheng/Dissertation/MetaDiff/HeartFailure/simu1/isoforms.fpkm_tracking 	| 0       	| 40  	| female   	|
+| simu2  	| /home/cheng/Dissertation/MetaDiff/HeartFailure/simu2/isoforms.fpkm_tracking 	| 0       	| 38  	| male     	|
+| simu3  	| /home/cheng/Dissertation/MetaDiff/HeartFailure/simu3/isoforms.fpkm_tracking 	| 0       	| 56  	| male     	|
+| simu4  	| /home/cheng/Dissertation/MetaDiff/HeartFailure/simu4/isoforms.fpkm_tracking 	| 1       	| 52  	| male     	|
+| simu5  	| /home/cheng/Dissertation/MetaDiff/HeartFailure/simu5/isoforms.fpkm_tracking 	| 1       	| 47  	| male     	|
+| simu6  	| /home/cheng/Dissertation/MetaDiff/HeartFailure/simu6/isoforms.fpkm_tracking 	| 1       	| 41  	|          	|
 
 The first two columns indicate the sample_id and the file_names associated with that sample_id. Sample_ID can be any unique identifier of your sample (no two sample IDs should be the same). 
 Use absolute path (path starting from root /) in File_name to avoid confusion of the program.
