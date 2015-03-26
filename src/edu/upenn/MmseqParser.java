@@ -27,11 +27,13 @@ public class MmseqParser extends CufflinksParser{
                 in.readLine();
                 while ((line=in.readLine())!=null){
                     line_tokens = line.split("\t");
+                    double y = Double.parseDouble(line_tokens[1]);
+                    double sd = Double.parseDouble(line_tokens[2]);
                     if (this.dict_arr_fpkm.containsKey(line_tokens[0])) {
-                        this.dict_arr_fpkm.get(line_tokens[0]).append(FastMath.exp(Double.parseDouble(line_tokens[1])),FastMath.exp(Double.parseDouble(line_tokens[1]))*Double.parseDouble(line_tokens[2]));
+                        this.dict_arr_fpkm.get(line_tokens[0]).append(y, sd, true);
                     }else{
                         this.dict_arr_fpkm.put(line_tokens[0],new ArrFPKM());
-                        this.dict_arr_fpkm.get(line_tokens[0]).append(FastMath.exp(Double.parseDouble(line_tokens[1])),FastMath.exp(Double.parseDouble(line_tokens[1]))*Double.parseDouble(line_tokens[2]));
+                        this.dict_arr_fpkm.get(line_tokens[0]).append(y, sd, true);
                     }
                 }
             }

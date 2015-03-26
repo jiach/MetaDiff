@@ -5,6 +5,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.math3.stat.descriptive.moment.Mean;
 import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation;
+import org.apache.commons.math3.util.FastMath;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,19 +18,31 @@ import java.util.TreeMap;
 public class ArrFPKM {
     ArrayList<Double> y_list = new ArrayList<Double>();
     ArrayList<Double> variance_list = new ArrayList<Double>();
+    ArrayList<Double> log_y = new ArrayList<Double>();
+    ArrayList<Double> var_log_y = new ArrayList<Double>();
+
     Map<String, Double> cv = null;
     Boolean status_ok = true;
 
-    public void append(double y, double sd){
-        this.y_list.add(y);
-        this.variance_list.add(sd * sd);
+    public void append(double y, double sd, boolean log){
+        if (log) {
+            this.log_y.add(y);
+            this.var_log_y.add(sd*sd);
+            this.y_list.add(FastMath.exp(y));
+            this.variance_list.add(FastMath.exp(y)*FastMath.exp(y)*sd*sd);
+        } else {
+            this.log_y.add(FastMath.log(y + 1e-16));
+            this.var_log_y.add(sd*sd/(y + 1e-16)/(y + 1e-16));
+            this.y_list.add(y);
+            this.variance_list.add(sd * sd);
+        }
     }
 
-    public void append(double y, double conf_lo, double conf_hi){
+/*    public void append(double y, double conf_lo, double conf_hi){
         this.y_list.add(y);
         this.variance_list.add(((conf_hi-y)/1.959963984540053605343)*((conf_hi-y)/1.959963984540053605343));
     }
-
+*/
     public double get_mean_fpkm(){
         double sum = (double)0;
         for (int i = 0; i < this.y_list.size(); i++) {
@@ -48,8 +61,8 @@ public class ArrFPKM {
         for (int i = 0; i < cov_mat.length; i++) {
             collapsed_cov_mat[i] = StringUtils.join(cov_mat[i],"\t");
         }
-        for (int i = 0; i < this.y_list.size(); i++) {
-            string_list.add(iso_name+"\t"+this.y_list.get(i).toString()+"\t"+this.variance_list.get(i).toString()+"\t"+collapsed_cov_mat[i]);
+        for (int i = 0; i < this.log_y.size(); i++) {
+            string_list.add(iso_name+"\t"+this.log_y.get(i).toString()+"\t"+this.var_log_y.get(i).toString()+"\t"+collapsed_cov_mat[i]);
         }
         return(StringUtils.join(string_list,"\n"));
     }

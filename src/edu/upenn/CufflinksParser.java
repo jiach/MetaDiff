@@ -35,13 +35,14 @@ public class CufflinksParser {
                 in.readLine();
                 while ((line=in.readLine())!=null){
                     line_tokens = line.split("\t");
+                    double y = Double.parseDouble(line_tokens[9]);
+                    double sd = Double.parseDouble(line_tokens[11]) - Double.parseDouble(line_tokens[9]);
                     if (this.dict_arr_fpkm.containsKey(line_tokens[0])) {
-                        this.dict_arr_fpkm.get(line_tokens[0]).append(Double.parseDouble(line_tokens[9]),Double.parseDouble(line_tokens[10]),Double.parseDouble(line_tokens[11]));
+                        this.dict_arr_fpkm.get(line_tokens[0]).append(y, sd, false);
                     }else{
                         this.dict_arr_fpkm.put(line_tokens[0],new ArrFPKM());
-                        this.dict_arr_fpkm.get(line_tokens[0]).append(Double.parseDouble(line_tokens[9]),Double.parseDouble(line_tokens[10]),Double.parseDouble(line_tokens[11]));
+                        this.dict_arr_fpkm.get(line_tokens[0]).append(y, sd, false);
                     }
-
                 }
             }
         } catch (FileNotFoundException e) {
@@ -50,6 +51,7 @@ public class CufflinksParser {
             e.printStackTrace();
         }
     }
+
 
     public void write_tmp_file(Path output_dir, String[][] cov_mat, String header){
 
