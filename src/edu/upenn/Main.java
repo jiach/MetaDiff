@@ -110,16 +110,16 @@ public class Main {
             fpkm_parser = new MmseqParser(sorted_filename, metadiff_log);
         }
 
-        metadiff_log.log_message("Filtering isoforms according to mean_fpkm_threshold = " + min_fpkm_mean);
+        metadiff_log.log_message("Filtering features according to mean_fpkm_threshold = " + min_fpkm_mean);
 
         fpkm_parser.trim_isoforms(Double.parseDouble(min_fpkm_mean),fpkm_list.get_num_sample());
 
-        metadiff_log.log_message(Long.toString(fpkm_parser.get_num_isoforms()) + " isoforms remaining after filtering");
+        metadiff_log.log_message(Long.toString(fpkm_parser.get_num_isoforms()) + " features remaining after filtering");
 
         if (fpkm_list.has_group_var){
-            metadiff_log.log_message("Filtering isoforms according to cv_threshold = 1");
+            metadiff_log.log_message("Filtering features according to cv_threshold = 1");
             fpkm_parser.trim_isoform(Double.parseDouble(max_cv),fpkm_list.get_group_var(sorted_sample_id));
-            metadiff_log.log_message(Long.toString(fpkm_parser.get_num_isoforms())+" isoforms remaining after filtering");
+            metadiff_log.log_message(Long.toString(fpkm_parser.get_num_isoforms())+" features remaining after filtering");
         }else{
             metadiff_log.log_message("Group variable \"C_group\" not provided, skipping filtering with CV");
         }
@@ -157,7 +157,6 @@ public class Main {
         PostProcessor rscript_out_proc = new PostProcessor(std_stream_gob.get_contents(), output_path.resolve("metadiff_results.tsv").toString(),fpkm_list.has_group_var);
         metadiff_log.log_message(output_path.resolve("metadiff_results.tsv").toString());
         rscript_out_proc.write_to_results(fpkm_parser);
-        rscript_out_proc.close();
         metadiff_log.end_logging();
     }
 

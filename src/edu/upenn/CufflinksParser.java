@@ -58,12 +58,12 @@ public class CufflinksParser {
         String mat_fn = output_dir.resolve("fpkm.mat").toString();
 
         try {
-            PrintWriter mat_fout = new PrintWriter(new File(mat_fn));
-            mat_fout.print("Isoform\ty\tvariance\t"+header+"\n");
-            mat_fout.print(this.get_mat_output_string(cov_mat));
+            BufferedWriter mat_fout = new BufferedWriter(new FileWriter(mat_fn));
+            mat_fout.write("Feature\ty\tvariance\t"+header+"\n");
+            mat_fout.write(this.get_mat_output_string(cov_mat));
             mat_fout.flush();
             mat_fout.close();
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 

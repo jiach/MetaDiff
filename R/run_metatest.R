@@ -28,7 +28,7 @@ close(fileConn)
 
 cl <- makeCluster(nodes)
 registerDoParallel(cl)
-df_res <- ddply(data_mat, .(Isoform), .fun = run_metatest, .parallel = T, .paropts = list(.packages='metatest'))
+df_res <- ddply(data_mat, .(Feature), .fun = run_metatest, .parallel = T, .paropts = list(.packages='metatest'))
 stopCluster(cl)
 
 write.table(df_res, file = file_out, row.names = F, quote=F)

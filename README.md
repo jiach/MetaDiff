@@ -86,7 +86,7 @@ The program will generate the following files in the output_dir provided:
 
 `metadiff_results.tsv` - a tab-delimited file containing the results of meta-regression. Usually it will be made of these columns:
 
-Isoform - names of the isoform or gene (the name of this column will be changed to "Feature_ID" in future updates);
+Feature - names of the isoform or gene
 
 Convergence - convergence status output by metatest;
 

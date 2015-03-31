@@ -2,9 +2,7 @@ package edu.upenn;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+import java.io.*;
 
 /**
  * Created by cheng on 1/9/15.
@@ -29,12 +27,12 @@ public class RScriptBuilder {
             "              names_vec <- c('Convergence', paste('tval_',cov_name,sep=''), 'dfttest', paste('pttest_',cov_name,sep=''), paste('bartLLR_',cov_name,sep=''), paste('pBartlett_',cov_name,sep=''))\n" +
             "              names(res_vec)<-names_vec\n" +
             "              return(res_vec)}, error = function(e) {\n" +
-            "                warning(paste('Metatest failed at Isoform: ', mat[1,1],sep=''))\n" +
+            "                warning(paste('Metatest failed at Feature: ', mat[1,1],sep=''))\n" +
             "                return(NULL)})}" +
             "\n" +
             "cl <- makeCluster(nodes)\n" +
             "registerDoParallel(cl)\n" +
-            "df_res <- ddply(data_mat, .(Isoform), .fun = run_metatest, .parallel = T, .paropts = list(.packages='metatest'))\n" +
+            "df_res <- ddply(data_mat, .(Feature), .fun = run_metatest, .parallel = T, .paropts = list(.packages='metatest'))\n" +
             "stopCluster(cl)\n" +
             "\n" +
             "write.table(df_res, file = \"\", row.names = F, quote=F, sep='\\t')\n";
@@ -56,9 +54,10 @@ public class RScriptBuilder {
             "              names_vec <- c('Convergence', paste('tval_',cov_name,sep=''), 'dfttest', paste('pttest_',cov_name,sep=''), paste('bartLLR_',cov_name,sep=''), paste('pBartlett_',cov_name,sep=''))\n" +
             "              names(res_vec)<-names_vec\n" +
             "              return(res_vec)}, error = function(e) {\n" +
-            "                warning(paste('Metatest failed at Isoform: ', mat[1,1],sep=''))\n" +
+            "                warning(paste('Metatest failed at Feature: ', mat[1,1],sep=''))\n" +
             "                return(NULL)})}" +
             "\n" +
+            "df_res <- ddply(data_mat, .(Feature), .fun = run_metatest)\n" +
             "write.table(df_res, file = \"\", row.names = F, quote=F, sep='\\t')";
 
     public RScriptBuilder(){
@@ -85,13 +84,13 @@ public class RScriptBuilder {
 
     public void write_to_R_script(Boolean parallel, String[] list_of_cov_names, String r_script_location){
 
-        PrintWriter r_script_fout;
+        BufferedWriter r_script_fout;
         try {
-            r_script_fout = new PrintWriter(new File(r_script_location));
-            r_script_fout.print(this.get_R_script(parallel, list_of_cov_names));
+            r_script_fout = new BufferedWriter(new FileWriter(r_script_location));
+            r_script_fout.write(this.get_R_script(parallel, list_of_cov_names));
             r_script_fout.flush();
             r_script_fout.close();
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

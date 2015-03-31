@@ -16,6 +16,6 @@ run_metatest<-function(mat){
   return(res_vec)
 }
 
-df_res <- ddply(data_mat, .(Isoform), .fun = run_metatest)
+df_res <- ddply(data_mat, .(Feature), .fun = run_metatest)
 
 write.table(df_res, file = "", row.names = F, quote=F, sep='\t')
