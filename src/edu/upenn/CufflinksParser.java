@@ -36,7 +36,7 @@ public class CufflinksParser {
                 while ((line=in.readLine())!=null){
                     line_tokens = line.split("\t");
                     double y = Double.parseDouble(line_tokens[9]);
-                    double sd = (Double.parseDouble(line_tokens[11]) - Double.parseDouble(line_tokens[9]))/0.9799819922700268026716;
+                    double sd = (Double.parseDouble(line_tokens[11]) - Double.parseDouble(line_tokens[9]))/1.959963984540053605343;
                     if (this.dict_arr_fpkm.containsKey(line_tokens[0])) {
                         this.dict_arr_fpkm.get(line_tokens[0]).append(y, sd, false);
                     }else{
