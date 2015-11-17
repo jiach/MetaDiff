@@ -27,7 +27,7 @@ public class RScriptBuilder {
             "              names_vec <- c('Convergence', paste('tval_',cov_name,sep=''), 'dfttest', paste('pttest_',cov_name,sep=''), paste('bartLLR_',cov_name,sep=''), paste('pBartlett_',cov_name,sep=''))\n" +
             "              names(res_vec)<-names_vec\n" +
             "              return(res_vec)}, error = function(e) {\n" +
-            "                warning(paste('Metatest failed at Feature: ', mat[1,1],sep=''))\n" +
+            "                warning(paste('Metatest failed at Feature: ', mat[1,1],sep=''))\nwarning(e)\n" +
             "                return(NULL)})}" +
             "\n" +
             "cl <- makeCluster(nodes)\n" +
@@ -54,7 +54,7 @@ public class RScriptBuilder {
             "              names_vec <- c('Convergence', paste('tval_',cov_name,sep=''), 'dfttest', paste('pttest_',cov_name,sep=''), paste('bartLLR_',cov_name,sep=''), paste('pBartlett_',cov_name,sep=''))\n" +
             "              names(res_vec)<-names_vec\n" +
             "              return(res_vec)}, error = function(e) {\n" +
-            "                warning(paste('Metatest failed at Feature: ', mat[1,1],sep=''))\n" +
+            "                warning(paste('Metatest failed at Feature: ', mat[1,1],sep=''))\nwarning(e)\n" +
             "                return(NULL)})}" +
             "\n" +
             "df_res <- ddply(data_mat, .(Feature), .fun = run_metatest)\n" +

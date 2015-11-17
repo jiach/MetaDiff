@@ -156,7 +156,7 @@ public class Main {
 
         PostProcessor rscript_out_proc = new PostProcessor(std_stream_gob.get_contents(), output_path.resolve("metadiff_results.tsv").toString(),fpkm_list.has_group_var);
         metadiff_log.log_message(output_path.resolve("metadiff_results.tsv").toString());
-        rscript_out_proc.write_to_results(fpkm_parser);
+        rscript_out_proc.write_to_results(fpkm_parser,metadiff_log);
         metadiff_log.end_logging();
     }
 

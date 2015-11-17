@@ -24,7 +24,6 @@ public class PostProcessor {
     private Map<String, Boolean> ok_status;
     private Map<String, double[]> ok_fdr;
     private List<Integer> pval_column_idx;
-
     public PostProcessor(String[] metatest_output, String output_fn, Boolean has_group_var){
         this.metatest_out_str_arr = metatest_output;
         this.has_group_var = has_group_var;
@@ -35,11 +34,15 @@ public class PostProcessor {
         }
     }
 
-    public void write_to_results(CufflinksParser parser){
+    public void write_to_results(CufflinksParser parser, Logger logger){
 
 //        System.out.println(StringUtils.join(this.metatest_out_str_arr,"\n"));
 
         this.generate_fdr_columns(parser);
+        if (this.ok_status == null || this.ok_fdr == null){
+            logger.log_message("Error generate fdr columns. The output from Rscript may not be formatted correctly. Check error messages in metadiff_r.log under the result directory.");
+            return;
+        }
 
         try {
             String[] extra_columns_header = new String[this.pval_column_idx.size()+1];
@@ -76,6 +79,11 @@ public class PostProcessor {
     }
 
     public void generate_fdr_columns(CufflinksParser parser){
+        if (this.metatest_out_str_arr.length<1){
+            this.ok_fdr = null;
+            this.ok_status = null;
+            return;
+        }
         String header_line = this.metatest_out_str_arr[0];
         String[] header_tokens = header_line.split("\t");
         this.pval_column_idx = new ArrayList<Integer>();
@@ -85,6 +93,12 @@ public class PostProcessor {
             if (header_tokens[i].startsWith("pttest_") || header_tokens[i].startsWith("pBartlett_")){
                 this.pval_column_idx.add(i);
             }
+        }
+
+        if (this.pval_column_idx.isEmpty()){
+            this.ok_fdr = null;
+            this.ok_status = null;
+            return;
         }
 
         // add p-values to a <feature_id, p_val> map, for each column, add one such map to the list;
