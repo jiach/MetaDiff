@@ -61,6 +61,8 @@ Categorical covariates NEED to be prefixed with C_ in their names.
 The C_group variable is the default variable name for the experimental group. Please do not use any other name for the group variable. 
 The program will look specifically for this covariate to determine the group to which each subject belongs. If you need cv_threshold adjustment, this variable has to be present in the list file, and needs to be named C_group.
 
+IMPORTANT: Please make sure you have ENOUGH samples for each category. Meta-regression will not perform and errors will occur!
+
 `output_dir` - again, use absolute path to avoid confusion.
 
 `method` - indicates which software package generated the files in the input_file_list, as of right now the program supports 'cufflinks' and 'mmseq'.
